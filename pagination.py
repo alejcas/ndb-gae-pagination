@@ -38,7 +38,7 @@ def return_query_page(cls, size=10, bookmark=None, is_prev=None, equality_filter
                 q_forward = q_forward.order(cls._properties[prop])
                 q_reverse = q_reverse.order(-cls._properties[prop])
     except:
-        return None
+        return None, None, None
     if is_prev:
         qry = q_reverse
         new_cursor = cursor.reversed() if cursor else None
