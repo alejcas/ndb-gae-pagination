@@ -1,5 +1,5 @@
 # Janscas 2014
-# Code to generate pagineted results on a query
+# Code to generate paginated results on a query
 # Can only perform equality filters
 # Returns the cursor.urlsafe of the Previous and Next buttons on your page.
 # -------------------------------------------------------------------------
