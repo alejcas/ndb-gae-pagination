@@ -1,5 +1,5 @@
 from google.appengine.ext import ndb
-import pagination
+from pagination import return_query_page
 
 class Note(ndb.Model):
     text = ndb.StringProperty()
