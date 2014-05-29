@@ -5,10 +5,10 @@
 # -------------------------------------------------------------------------
 
 
-def return_query_page(cls, size=10, bookmark=None, is_prev=None, equality_filters=None, orders=None):
+def return_query_page(query_class, size=10, bookmark=None, is_prev=None, equality_filters=None, orders=None):
     """
     Generate a paginated result on any class
-    Param cls: The ndb model class to query
+    Param query_class: The ndb model class to query
     Param size: The size of the results
     Param bokkmark: The urlsafe cursor of the previous queris. First time will be None
     Param is_prev: If your requesting for a next result or the previous ones
@@ -25,18 +25,18 @@ def return_query_page(cls, size=10, bookmark=None, is_prev=None, equality_filter
     q = cls.query()
     try:
         for prop, value in equality_filters.iteritems():
-            q = q.filter(cls._properties[prop] == value)
+            q = q.filter(getattr(query_class, prop) == value)
 
         q_forward = q.filter()
         q_reverse = q.filter()
 
         for prop, value in orders.iteritems():
             if value == '-':
-                q_forward = q_forward.order(-cls._properties[prop])
-                q_reverse = q_reverse.order(cls._properties[prop])
+                q_forward = q_forward.order(-getattr(query_class, prop))
+                q_reverse = q_reverse.order(getattr(query_class, prop))
             else:
-                q_forward = q_forward.order(cls._properties[prop])
-                q_reverse = q_reverse.order(-cls._properties[prop])
+                q_forward = q_forward.order(getattr(query_class, prop))
+                q_reverse = q_reverse.order(-getattr(query_class, prop))
     except:
         return None, None, None
     if is_prev:
