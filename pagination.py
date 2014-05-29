@@ -22,7 +22,7 @@ def return_query_page(query_class, size=10, bookmark=None, is_prev=None, equalit
         is_prev = None
         cursor = None
 
-    q = cls.query()
+    q = query_class.query()
     try:
         for prop, value in equality_filters.iteritems():
             q = q.filter(getattr(query_class, prop) == value)
