@@ -10,7 +10,7 @@ def return_query_page(query_class, size=10, bookmark=None, is_prev=None, equalit
     Generate a paginated result on any class
     Param query_class: The ndb model class to query
     Param size: The size of the results
-    Param bokkmark: The urlsafe cursor of the previous queris. First time will be None
+    Param bookmark: The urlsafe cursor of the previous queris. First time will be None
     Param is_prev: If your requesting for a next result or the previous ones
     Param equal_filters: a dictionary of {'property': value} to apply equality filters only
     Param orders: a dictionary of {'property': '-' or ''} to order the results like .order(cls.property)
