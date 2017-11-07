@@ -5,7 +5,7 @@
 # -------------------------------------------------------------------------
 
 
-def return_query_page(query_class, size=10, bookmark=None, is_prev=None, equality_filters=None, orders=None):
+def return_query_page(query_class, size=10, bookmark=None, is_prev=None, equality_filters={}, orders={}):
     """
     Generate a paginated result on any class
     Param query_class: The ndb model class to query
@@ -27,19 +27,21 @@ def return_query_page(query_class, size=10, bookmark=None, is_prev=None, equalit
     
     q = query_class.query()
     try:
-        for prop, value in equality_filters.iteritems():
-            q = q.filter(getattr(query_class, prop) == value)
+        if equality_filters:
+          for prop, value in equality_filters.iteritems():
+              q = q.filter(getattr(query_class, prop) == value)
 
         q_forward = q.filter()
         q_reverse = q.filter()
-
-        for prop, value in orders.iteritems():
-            if value == '-':
-                q_forward = q_forward.order(-getattr(query_class, prop))
-                q_reverse = q_reverse.order(getattr(query_class, prop))
-            else:
-                q_forward = q_forward.order(getattr(query_class, prop))
-                q_reverse = q_reverse.order(-getattr(query_class, prop))
+        
+        if orders:
+            for prop, value in orders.iteritems():
+                if value == '-':
+                    q_forward = q_forward.order(-getattr(query_class, prop))
+                    q_reverse = q_reverse.order(getattr(query_class, prop))
+                else:
+                    q_forward = q_forward.order(getattr(query_class, prop))
+                    q_reverse = q_reverse.order(-getattr(query_class, prop))
     except:
         return None, None, None
     if is_prev:
