@@ -21,7 +21,10 @@ def return_query_page(query_class, size=10, bookmark=None, is_prev=None, equalit
     else:
         is_prev = None
         cursor = None
-
+    
+    equality_filters = equality_filters or {}
+    orders = orders or {}
+    
     q = query_class.query()
     try:
         for prop, value in equality_filters.iteritems():
